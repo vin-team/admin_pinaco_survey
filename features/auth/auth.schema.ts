@@ -1,14 +1,14 @@
-import {z} from "zod";
+import { z } from "zod";
 
-export const loginSchema = z.object ({
-    phone: z
+export const loginSchema = z.object({
+  username: z
     .string()
-    .min(1, "Phone number is required")
-    .min(10, "Phone number must be at least 10 characters"),
-    otpnumber: z
+    .min(1, "Username is required")
+    .min(3, "Username must be at least 3 characters"),
+  password: z
     .string()
-    .min(1, "OTP number is required")
-    .min(4, "OTP number must be at least 4 characters"),
+    .min(1, "Password is required")
+    .min(8, "Password must be at least 8 characters"),
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
