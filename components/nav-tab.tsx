@@ -1,46 +1,61 @@
 "use client"
 
+import { useRouter, useSearchParams } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ReactNode } from "react"
 
-// Dữ liệu cho các tab
-const tabItems = [
-    { value: "tong_quan", label: "Tổng quan", content: "Nội dung Tổng quan" },
-    { value: "ql_ks", label: "Quản lý khảo sát", content: "Nội dung Quản lý khảo sát" },
-    { value: "ch_ks", label: "Câu hỏi khảo sát", content: "Nội dung Câu hỏi khảo sát" },
-    { value: "ql_dn", label: "Quản lý đội ngũ", content: "Nội dung Quản lý đội ngũ" },
-]
+// Định nghĩa kiểu dữ liệu cho mỗi Tab
+interface TabItem {
+  value: string
+  label: string
+  component: ReactNode | null // Component con, hoặc null nếu chưa có
+}
 
-export function NavigationTabs() {
+interface NavigationTabsProps {
+  items: TabItem[]
+}
+
+export function NavigationTabs({ items }: NavigationTabsProps) {
+  const router = useRouter()
+  const params = useSearchParams()
+
+  // Lấy tab hiện tại từ URL, mặc định là tab đầu tiên trong danh sách
+  const currentTab = params.get("tab") || items[0]?.value
+
+  const handleTabChange = (value: string) => {
+    // Cập nhật URL khi đổi tab
+    router.replace(`?tab=${value}`)
+  }
+
   return (
-    // Đặt giá trị mặc định là 'tong_quan'
-    <Tabs defaultValue="tong_quan" className="w-full">
-      <div className="flex justify-end pr-4 lg:pr-6">
-        <TabsList className="h-9"> 
-          {tabItems.map((item) => (
-            <TabsTrigger 
-              key={item.value} 
+    <Tabs value={currentTab} onValueChange={handleTabChange} className="w-full flex flex-col">
+      {/* Phần Menu Tabs - Được căn phải */}
+      <div className="flex justify-end px-4 lg:px-6 pb-2">
+        <TabsList className="h-9">
+          {items.map((item) => (
+            <TabsTrigger
+              key={item.value}
               value={item.value}
-              // Tối ưu kích thước chữ trên mobile
-              className="px-3 py-1 text-sm sm:text-base h-8" 
+              className="px-3 py-1 text-sm sm:text-base h-8"
             >
               {item.label}
             </TabsTrigger>
           ))}
         </TabsList>
       </div>
-      
-      {/* Phần TabsContent này thường được đặt ở nơi nội dung cần thay đổi.
-        Tuy nhiên, trong dashboard của bạn, các tab này có thể chỉ là điều hướng.
-        Tôi vẫn đặt phần nội dung ở đây để bạn tham khảo cách sử dụng đầy đủ.
-        Bạn có thể di chuyển hoặc bỏ qua phần này tùy thuộc vào cách bạn quản lý nội dung.
-      */}
-      {tabItems.map((item) => (
-        <TabsContent key={item.value} value={item.value} className="mt-4">
-          {/* Thay thế bằng component hoặc nội dung thực tế của bạn */}
-          {item.content}
-        </TabsContent>
-      ))}
-      
+
+      {/* Phần Nội dung của Tab - Hiển thị full bên dưới */}
+      <div className="flex-1">
+        {items.map((item) => (
+          <TabsContent
+            key={item.value}
+            value={item.value}
+            className="mt-0" // Reset margin để content sát với header hơn nếu cần
+          >
+            {item.component}
+          </TabsContent>
+        ))}
+      </div>
     </Tabs>
   )
 }
