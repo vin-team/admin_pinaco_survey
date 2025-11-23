@@ -31,7 +31,7 @@ export default function SupportRequestModal({ item }: { item: any }) {
   const requestReason = "Khác : cập nhật lại khoảng cách tọa độ (cách khoảng cách mới 1km)";
 
   return (
-    <DialogContent className="max-w-5xl h-[90vh] flex flex-col bg-gray-50 p-0 gap-0 overflow-hidden focus:outline-none">
+    <DialogContent className="max-w-5xl h-[90vh] flex flex-col bg-gray-50 p-0 gap-0 overflow-y-auto focus:outline-none">
       
       {/* 1. HEADER */}
       <DialogHeader className="px-6 py-4 bg-white border-b shrink-0">

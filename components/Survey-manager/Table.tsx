@@ -38,9 +38,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import NotSurveyedModal from "./Notsurvey"
-import SupportRequestModal from "./Surveysupportrequest"
-import ExpiredSurveyModal from "./Expiredmodal"
+import NotSurveyedModal from "@/components/survey-manager/notsurvey"
+import SupportRequestModal from "./supportrequest"
+import ExpiredSurveyModal from "./expired"
 
 // --- TYPE DEFINITIONS ---
 type SurveyItem = {
@@ -139,7 +139,7 @@ const SurveyedModal = ({ item }: { item: SurveyItem }) => {
   }, []);
 
   return (
-    <DialogContent className="max-w-5xl h-[90vh] flex flex-col bg-gray-50 p-0 gap-0 overflow-hidden">
+    <DialogContent className="max-w-5xl h-[90vh] flex flex-col bg-gray-50 p-0 gap-0 overflow-y-auto">
       {/* Header */}
       <DialogHeader className="px-6 py-4 bg-white border-b">
         <div className="flex flex-col gap-1 text-left">

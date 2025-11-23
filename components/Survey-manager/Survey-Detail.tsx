@@ -134,7 +134,7 @@ export default function SurveyDetailButton({ data = MOCK_STORE_DATA }) {
         1. h-[90vh] + flex flex-col: Thiết lập kích thước khung và hướng layout.
         2. overflow-hidden: Ngăn thanh cuộn trình duyệt ngoài.
       */}
-      <DialogContent className="max-w-5xl h-[90vh] flex flex-col bg-gray-50 p-0 gap-0 overflow-y-auto!"> 
+      <DialogContent className="max-w-5xl h-[90vh] flex flex-col bg-gray-50 p-0 gap-0 overflow-y-auto"> 
         
         {/* Header cố định */}
         <DialogHeader className="px-6 py-4 bg-white border-b shrink-0">

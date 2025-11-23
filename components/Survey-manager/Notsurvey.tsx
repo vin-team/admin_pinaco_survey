@@ -48,7 +48,7 @@ export default function NotSurveyedModal({ item }: { item: any }) {
   };
 
   return (
-    <DialogContent className="max-w-5xl h-auto bg-gray-50 p-0 gap-0 overflow-hidden flex flex-col">
+    <DialogContent className="max-w-5xl h-auto bg-gray-50 p-0 gap-0 overflow-y-auto flex flex-col">
       
       {/* 1. HEADER */}
       <DialogHeader className="px-6 py-4 bg-white border-b shrink-0">
