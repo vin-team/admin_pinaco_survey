@@ -9,12 +9,13 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { 
-  Eye, 
   ChevronLeft, 
   ChevronRight, 
   ChevronsLeft, 
   ChevronsRight 
 } from "lucide-react";
+// Import component popup từ file teamdetail.tsx
+import { EmployeeDetailDialog } from "./teamdetail";
 
 // Dữ liệu giả định (Mock data)
 const employees = [
@@ -37,7 +38,7 @@ export default function EmployeeTable() {
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-200 hover:bg-gray-200 border-b-gray-300">
-            {/* Cột Icon mắt (để trống tiêu đề hoặc icon tùy ý) */}
+            {/* Cột Icon mắt */}
             <TableHead className="w-[60px] text-center font-bold text-black"></TableHead>
             
             <TableHead className="font-bold text-black text-xs md:text-sm">
@@ -61,16 +62,11 @@ export default function EmployeeTable() {
         <TableBody>
           {employees.map((employee, index) => (
             <TableRow key={index} className="border-b-gray-200">
-              {/* Cột hành động (Icon Mắt) */}
+              {/* Cột hành động: Gọi Popup EmployeeDetailDialog */}
               <TableCell className="py-3">
                 <div className="flex justify-center">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-12 bg-gray-100 hover:bg-gray-200 rounded-sm"
-                  >
-                    <Eye className="h-5 w-5 text-black" />
-                  </Button>
+                  {/* Component này đã chứa sẵn nút bấm hình con mắt (Eye) */}
+                  <EmployeeDetailDialog />
                 </div>
               </TableCell>
 
@@ -93,7 +89,7 @@ export default function EmployeeTable() {
             </TableRow>
           ))}
           
-          {/* Tạo thêm các dòng trống nếu cần để giống hình (đường kẻ ngang) */}
+          {/* Tạo thêm các dòng trống */}
           {Array.from({ length: 3 }).map((_, i) => (
              <TableRow key={`empty-${i}`} className="h-[57px] border-b-gray-200">
                 <TableCell colSpan={6}></TableCell>
@@ -104,12 +100,10 @@ export default function EmployeeTable() {
 
       {/* Footer / Pagination */}
       <div className="flex items-center justify-between bg-gray-200 px-4 py-2 text-xs md:text-sm text-gray-700 border-t border-gray-300">
-        {/* Phần bên trái: Số dòng */}
         <div className="font-medium">
           số dòng mỗi trang : 50
         </div>
 
-        {/* Phần bên phải: Nút phân trang */}
         <div className="flex items-center gap-1 bg-white rounded px-1 py-0.5">
           <Button variant="ghost" size="icon" className="h-6 w-6 hover:bg-gray-100" disabled>
             <ChevronsLeft className="h-4 w-4 text-gray-400" />
