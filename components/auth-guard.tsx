@@ -17,7 +17,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const pathNotNeedAuth = ['/register', '/forgot-password', '/auth/password/reset', '/sso-callback'];
   const pathWaiting = ['/login', '/']
 
-  {/*useEffect(() => {
+  useEffect(() => {
     if (!isLogged) {
       if (query || pathNotNeedAuth.includes(pathname)) {
         return;
@@ -27,7 +27,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     } else if (pathWaiting.includes(pathname)) {
       router.push("/dashboard");
     }
-  }, [isLogged, pathname, query, router]); */}
+  }, [isLogged, pathname, query, router]);
 
   return isLogged ? <SidebarProvider
     style={
