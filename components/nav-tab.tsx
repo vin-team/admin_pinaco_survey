@@ -36,7 +36,8 @@ export function NavigationTabs({ items }: NavigationTabsProps) {
             <TabsTrigger
               key={item.value}
               value={item.value}
-              className="px-3 py-1 text-sm sm:text-base h-8"
+              // Đã thêm data-[state=active]:bg-[#0f62ac] và data-[state=active]:text-white
+              className="px-3 py-1 text-sm sm:text-base h-8 data-[state=active]:bg-[#0f62ac] data-[state=active]:text-white"
             >
               {item.label}
             </TabsTrigger>
