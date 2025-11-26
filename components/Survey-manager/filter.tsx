@@ -30,22 +30,19 @@ export default function SurveyFilter() {
   })
 
   // --- CẤU HÌNH KÍCH THƯỚC CHUẨN ---
-  // w-[160px]: Chiều rộng cố định cho tất cả các ô
-  // h-[44px]: Chiều cao cố định
   const fixedSizeClass = "w-[160px] h-[44px] bg-gray-200 border-transparent font-bold text-black/80 shadow-none text-sm"
 
   return (
-    // THAY ĐỔI 1: Xóa padding-top (pt-0) để đẩy nội dung lên sát vùng trống bên trên
-    <div className="w-full px-4 pb-4 pt-0 bg-white">
+    // THAY ĐỔI: Thêm "-mt-4" (hoặc -mt-6) để kéo toàn bộ khung lên trên, đè lên khoảng trắng của cha
+    <div className="w-full px-4 pb-4 pt-0 -mt-4 bg-white">
       
-      {/* Tiêu đề: Giảm margin-bottom để các ô input gần tiêu đề hơn */}
+      {/* Tiêu đề */}
       <h3 className="text-sm font-medium text-gray-700 mb-2">Danh sách khảo sát</h3>
 
       {/* Container chính: Flex row */}
       <div className="flex flex-col xl:flex-row gap-4 items-end">
         
         {/* --- PHẦN 1: CÁC INPUT LỌC --- */}
-        {/* Giữ nguyên gap-[23px] để đảm bảo khoảng cách đều nhau */}
         <div className="flex flex-wrap items-end gap-[23px] flex-1">
           
           {/* 1. Mã điểm bán */}
@@ -57,7 +54,7 @@ export default function SurveyFilter() {
             />
           </div>
 
-          {/* 2. Khu vực - Đã sửa padding/size bằng ô số 1 */}
+          {/* 2. Khu vực */}
           <div>
             <Select>
               <SelectTrigger className={fixedSizeClass}>
@@ -84,7 +81,7 @@ export default function SurveyFilter() {
             </Select>
           </div>
 
-          {/* 4. Hạn khảo sát - Đã sửa padding/size bằng ô số 1 */}
+          {/* 4. Hạn khảo sát */}
           <div>
             <Popover>
               <PopoverTrigger asChild>
@@ -92,8 +89,8 @@ export default function SurveyFilter() {
                   id="date"
                   variant={"outline"}
                   className={cn(
-                    fixedSizeClass, // Áp dụng kích thước chuẩn
-                    "justify-start text-left px-3 font-bold", // Căn chỉnh nội dung bên trong
+                    fixedSizeClass,
+                    "justify-start text-left px-3 font-bold",
                     !date && "text-muted-foreground"
                   )}
                 >
@@ -127,7 +124,7 @@ export default function SurveyFilter() {
             </Popover>
           </div>
 
-          {/* 5. Trạng thái - Đã sửa padding/size bằng ô số 1 */}
+          {/* 5. Trạng thái */}
           <div>
             <Select>
               <SelectTrigger className={fixedSizeClass}>
