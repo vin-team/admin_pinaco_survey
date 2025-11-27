@@ -27,14 +27,14 @@ export default function TeamFilterBar() {
   return (
     <div className="w-full px-4 pb-4 pt-0 bg-white">
       
-      {/* UPDATE 1: Thêm 'ml-6' để di chuyển label qua phải */}
+      {/* Tiêu đề giữ nguyên vị trí */}
       <h3 className="text-sm font-medium text-gray-700 mb-2 ml-3">Đội ngũ</h3>
 
-      <div className="flex flex-col xl:flex-row gap-4 items-end">
+      {/* Container chính: Flex row để mọi thứ nằm ngang */}
+      <div className="flex w-full items-center gap-2 px-2">
         
-        {/* Vùng 4 ô Input/Select */}
-        {/* UPDATE 2: Thêm 'px-6' để padding 2 bên trái phải cho vùng input */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 flex-1 w-full px-2">
+        {/* Vùng 4 ô Input/Select: Dùng Grid 4 cột để chia đều không gian còn lại */}
+        <div className="grid grid-cols-4 gap-2 flex-1">
           {/* 1. Mã nhân viên */}
           <Input
             type="text"
@@ -78,40 +78,32 @@ export default function TeamFilterBar() {
           </Select>
         </div>
 
-        {/* Vùng các nút bấm */}
-        {/* UPDATE 3: Thêm 'mr-6' để đẩy các nút qua trái (cách lề phải ra) */}
-        <div className="flex flex-col gap-1 shrink-0 min-w-[160px] mr-6">
-          {/* Hàng 1: Import / Export */}
-          <div className="flex gap-1 justify-end">
-            <Button 
-              variant="secondary" 
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium w-20 shadow-sm h-8 text-xs"
-            >
-              Import
-            </Button>
-            <Button 
-              variant="secondary" 
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium w-20 shadow-sm h-8 text-xs"
-            >
-              Export
-            </Button>
-          </div>
-
-          {/* Hàng 2: Lọc / Xóa */}
-          <div className="flex gap-1 justify-end">
-            <Button 
-              variant="secondary" 
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 w-20 rounded-full shadow-sm h-8 text-xs"
-            >
-              Lọc
-            </Button>
-            <Button 
-              variant="secondary" 
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 w-20 rounded-full shadow-sm h-8 text-xs"
-            >
-              Xóa
-            </Button>
-          </div>
+        {/* Vùng các nút bấm: Flex row đơn giản, không ngắt dòng */}
+        <div className="flex gap-2 shrink-0">
+          <Button 
+            variant="secondary" 
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium w-20 shadow-sm h-8 text-xs"
+          >
+            Import
+          </Button>
+          <Button 
+            variant="secondary" 
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium w-20 shadow-sm h-8 text-xs"
+          >
+            Export
+          </Button>
+          <Button 
+            variant="secondary" 
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 w-20 rounded-full shadow-sm h-8 text-xs"
+          >
+            Lọc
+          </Button>
+          <Button 
+            variant="secondary" 
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 w-20 rounded-full shadow-sm h-8 text-xs"
+          >
+            Xóa
+          </Button>
         </div>
       </div>
     </div>
