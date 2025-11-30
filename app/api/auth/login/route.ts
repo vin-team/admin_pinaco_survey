@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return responseSuccess(response);
+    return responseSuccess(response); 
   } catch (error) {
     const payload = error as any;
     return responseFailed(payload, 'Login failed');
