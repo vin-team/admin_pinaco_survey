@@ -1,7 +1,7 @@
 "use client";
 
-import React, { use, useEffect, useMemo, useState } from "react";
-// Thêm icon Refresh
+import React, { useEffect, useMemo, useState } from "react";
+// Đã xóa 'use' khỏi dòng import trên
 import { RefreshCcw } from "lucide-react"; 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

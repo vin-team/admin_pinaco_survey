@@ -1,5 +1,6 @@
 import React from "react";
-import { MapPin, Store, User, AlertTriangle, FileQuestion } from "lucide-react";
+// Đã xóa Store, User khỏi dòng import này
+import { MapPin, AlertTriangle, FileQuestion } from "lucide-react";
 
 // Shadcn UI Components
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+// Đã xóa import Separator vì không sử dụng
 
 // --- Mock Component Map (Tái sử dụng để hiển thị đẹp) ---
 const MockMapDisplay = ({ label, subLabel }: { label: string; subLabel: string }) => (

@@ -11,9 +11,6 @@ import {
   Store,
   User,
   CheckCircle2,
-  AlertCircle,
-  AlertTriangle,
-  Clock
 } from "lucide-react"
 
 // Shadcn UI Components
@@ -32,13 +29,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogDescription
+  // Đã xóa DialogDescription
 } from "@/components/ui/dialog"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import NotSurveyedModal from "@/components/survey-manager/notsurvey"
+// Đã xóa import Separator
+// Đã xóa import NotSurveyedModal
 import SupportRequestModal from "./supportrequest"
 import ExpiredSurveyModal from "./expired"
 
@@ -54,11 +51,11 @@ type SurveyItem = {
   status: string
 }
 
-// --- DATA MẪU (Giữ nguyên như yêu cầu) ---
+// --- DATA MẪU ---
 const data: SurveyItem[] = [
   {
     id: "1",
-    name: "Tạp hóa Minh Anh", // Đã điền tên để hiển thị đẹp hơn trong popup
+    name: "Tạp hóa Minh Anh",
     attr1: "Kênh GT",
     attr2: "HCM",
     attr3: "Số 2 đường 1B, P. An Lạc...",
@@ -201,41 +198,7 @@ const SurveyedModal = ({ item }: { item: SurveyItem }) => {
   )
 }
 
-// --- COMPONENT POPUP 2: CÁC TRẠNG THÁI KHÁC (SIMPLE MOCK) ---
-const OtherStatusModal = ({ item, type }: { item: SurveyItem, type: 'pending' | 'support' | 'expired' }) => {
-  let icon = <AlertCircle className="w-12 h-12 text-gray-400" />;
-  let title = "Thông tin";
-  let description = "Chi tiết trạng thái.";
-  let colorClass = "bg-gray-100";
-
-  if (type === 'pending') {
-    icon = <Clock className="w-16 h-16 text-blue-500 mb-4" />;
-    title = "Chưa khảo sát";
-    description = "Cửa hàng này chưa được nhân viên ghé thăm. Vui lòng thực hiện check-in để bắt đầu.";
-    colorClass = "bg-blue-50";
-  } else if (type === 'support') {
-    icon = <AlertTriangle className="w-16 h-16 text-orange-500 mb-4" />;
-    title = "Yêu cầu hỗ trợ";
-    description = "Nhân viên đã check-in nhưng gặp sự cố. Đang chờ quản lý duyệt yêu cầu hỗ trợ.";
-    colorClass = "bg-orange-50";
-  } else if (type === 'expired') {
-    icon = <AlertCircle className="w-16 h-16 text-red-500 mb-4" />;
-    title = "Quá hạn khảo sát";
-    description = "Đã quá thời gian quy định. Phiếu khảo sát này đã bị khoá.";
-    colorClass = "bg-red-50";
-  }
-
-  return (
-    <DialogContent className="sm:max-w-[425px]">
-      <div className={`flex flex-col items-center justify-center p-6 rounded-lg text-center ${colorClass}`}>
-        {icon}
-        <h3 className="text-xl font-bold text-gray-900">{title}</h3>
-        <p className="text-gray-500 mt-2">{description}</p>
-        <p className="text-xs text-gray-400 mt-4">ID Cửa hàng: {item.id}</p>
-      </div>
-    </DialogContent>
-  )
-}
+// Đã xóa Component OtherStatusModal vì không được sử dụng trong renderModalContent
 
 // --- MAIN TABLE COMPONENT ---
 export default function SurveyTable() {
@@ -246,6 +209,7 @@ export default function SurveyTable() {
       case "Đã khảo sát":
         return <SurveyedModal item={item} />;
       case "Chưa khảo sát":
+        // Hiện tại bạn đang dùng SupportRequestModal cho case này, nên NotSurveyedModal thừa
         return <SupportRequestModal item={item} />;
       case "Yêu cầu hỗ trợ":
        return <SupportRequestModal item={item} />;

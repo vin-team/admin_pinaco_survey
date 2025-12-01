@@ -126,7 +126,8 @@ export function EmployeeDetailDialog() {
   )
 }
 
-function TaskItem({ title, address, group, area, status, manager, startTime, endTime }: any) {
+// Đã xóa 'area' ra khỏi danh sách props destructuring bên dưới để sửa lỗi unused vars
+function TaskItem({ title, address, group, status, manager, startTime, endTime }: any) {
   const isProcessing = status === "PROCESSING";
   const statusText = isProcessing ? "Đang khảo sát" : "Chưa khảo sát";
   const statusColor = isProcessing 
