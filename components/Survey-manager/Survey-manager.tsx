@@ -1,8 +1,7 @@
 "use client";
 
-// Sửa lỗi: Sử dụng Default Import thay vì Named Import
-import SurveyFilter from "@/components/survey-manager/filter"; // Component SurveyFilterBar/ControlPanel
-import Table from "@/components/survey-manager/Table";         // Component SurveyDataTable/Table
+import SurveyFilter from "./filter";
+import Table from "./Table";
 
 export default function SurveyManager() {
   // Sửa lỗi: Component phải return JSX.

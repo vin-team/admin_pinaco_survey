@@ -3,9 +3,9 @@ import { SectionCards } from "@/components/section-cards"
 import { ChartBarLabel } from "@/components/chart-bar-label"
 import { ChartPieSimple } from "@/components/chart-pie-simple"
 import { NavigationTabs } from "@/components/nav-tab"
-import SurveyManager from "@/components/survey-manager/survey-manager" // Import Survey Manager tại đây
 import SurveyQuestion from "@/components/survey-question/detailcard" // Import Survey Question tại đây
 import Team from "@/components/team/Team"
+import SurveyManager from "@/components/Survey-manager/Survey-manager"
 
 // 1. Tách giao diện "Tổng quan" ra thành một component riêng
 // Để khi chuyển tab khác, component này sẽ được unmount (biến mất)
