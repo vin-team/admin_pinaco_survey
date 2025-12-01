@@ -11,6 +11,7 @@ export class ServerService extends BaseHttpService {
     this.instance.interceptors.request.use(
       async (config) => {
         const token = await this.getAccessToken();
+        console.log('token', token);
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -39,13 +40,13 @@ export class ServerService extends BaseHttpService {
       try {
         const { cookies } = await import('next/headers');
         const cookieStore = await cookies();
-        return cookieStore.get('access_token')?.value || null;
+        return cookieStore.get('accessToken')?.value || null;
       } catch (_) {
         this.clearAuthState();
       }
     }
     // Client-side fallback
-    return cookieUtils.get('access_token');
+    return cookieUtils.get('accessToken');
   }
 
   private async clearAuthState(): Promise<void> {
@@ -54,12 +55,12 @@ export class ServerService extends BaseHttpService {
         try {
           const { cookies } = await import('next/headers');
           const cookieStore = await cookies();
-          cookieStore.delete('access_token');
-          cookieStore.delete('refresh_token');
+          cookieStore.delete('accessToken');
+          cookieStore.delete('refreshToken');
         } catch (_) { }
       } else {
-        cookieUtils.remove('access_token');
-        cookieUtils.remove('refresh_token');
+        cookieUtils.remove('accessToken');
+        cookieUtils.remove('refreshToken');
       }
     } finally {
       storage.clear();

@@ -81,7 +81,7 @@ export class ClientService extends BaseHttpService {
   }
 
   private getAuthToken(): string | null {
-    return cookieUtils.get('access_token');
+    return cookieUtils.get('accessToken');
   }
 
   async get(url: string, params?: any, headers?: Record<string, string>) {
@@ -112,7 +112,7 @@ export class ClientService extends BaseHttpService {
 
   private getCommonParamsFromLocalStorage() {
     try {
-      const raw = localStorage.getItem('persist:navaro');
+      const raw = localStorage.getItem('persist:admin-pinaco-survey');
       if (!raw) return null;
       const persisted = JSON.parse(raw);
       const app = persisted.app ? JSON.parse(persisted.app) : undefined;
