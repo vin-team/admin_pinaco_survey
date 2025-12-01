@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { parseUser } from "@/model/User.model"
 import { setIsLogged, setUser } from "@/features/app/app.slice"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 export function LoginForm({
   className,
@@ -24,6 +25,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const router = useRouter();
 
   const {
     register,
@@ -41,6 +43,7 @@ export function LoginForm({
         const user = parseUser(res?.data?.data?.user);
         dispatch(setUser(user));
         dispatch(setIsLogged(true));
+        router.push('/dashboard')
       })
       .catch((err: any) => {
         setError("root.email", { message: err?.message ?? 'Đăng nhập thất bại' })
