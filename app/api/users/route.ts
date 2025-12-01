@@ -10,6 +10,6 @@ export async function GET() {
         return responseSuccess(response);
     } catch (error) {
         const payload = error as any;
-        return responseFailed(payload, 'Failed to fetch team users');
+        return responseFailed(payload, 'Failed to fetch users');
     }
 }
