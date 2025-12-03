@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // SỬA 1: Dùng hook đã được định nghĩa kiểu (Typed Hooks) thay vì hook mặc định
-import { useAppDispatch, useAppSelector } from "@/hooks/redux"; 
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 
 import {
   Table,
@@ -16,23 +16,23 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  Loader2 
+  Loader2
 } from "lucide-react";
 
 import { EmployeeDetailDialog } from "./teamdetail";
-import { fetchUsers } from "@/features/team/team.slice"; 
+import { fetchUsers } from "@/features/users/user.slice";
 
 export default function EmployeeTable() {
   // SỬA 2: Sử dụng useAppDispatch để hiểu được AsyncThunk
   const dispatch = useAppDispatch();
-  
+
   const [page, setPage] = useState(1);
   const pageSize = 50;
 
-  // === SỬA LỖI TẠI ĐÂY (DÒNG 33) ===
-  // 1. Đổi state.users -> state.team (dựa theo import team.slice)
-  // 2. Thêm || {} để nếu state chưa có dữ liệu thì không bị crash (lỗi undefined)
-  const { list: users, isLoading } = useAppSelector((state: any) => state.team || state.users || {}); 
+  // === ĐÃ SỬA LỖI TẠI ĐÂY (DÒNG 33) ===
+  // Đảm bảo truy cập đúng key slice đã đăng ký, giả sử là 'users' (dựa trên user.slice)
+  // và thêm || {} để tránh lỗi nếu state.users là undefined (trước khi Redux khởi tạo hoàn toàn)
+  const { list: users, isLoading } = useAppSelector((state: any) => state.users || {});
 
   useEffect(() => {
     // Bây giờ dispatch sẽ không còn báo lỗi đỏ nữa
@@ -40,7 +40,7 @@ export default function EmployeeTable() {
   }, [dispatch, page]);
 
   const handlePageChange = (newPage: number) => {
-    if (newPage > 0) { 
+    if (newPage > 0) {
       setPage(newPage);
     }
   };
@@ -80,7 +80,7 @@ export default function EmployeeTable() {
             {users && users.length > 0 ? (
               users.map((user: any, index: number) => (
                 <TableRow
-                  key={user.id || index} 
+                  key={user.id || index}
                   className="border-b border-gray-200 hover:bg-gray-50 h-10 transition-colors"
                 >
                   <TableCell className="p-0 text-center">
@@ -91,7 +91,7 @@ export default function EmployeeTable() {
                   </TableCell>
 
                   <TableCell className="text-xs font-medium text-gray-700 px-4 py-1">
-                    {user.code || user.userCode} 
+                    {user.code || user.userCode}
                   </TableCell>
                   <TableCell className="text-xs font-medium text-gray-700 px-4 py-1">
                     {user.position}
@@ -117,12 +117,12 @@ export default function EmployeeTable() {
               )
             )}
 
-            {!isLoading && users && users.length < 10 && 
+            {!isLoading && users && users.length < 10 &&
               Array.from({ length: 10 - users.length }).map((_, i) => (
-              <TableRow key={`empty-${i}`} className="h-10 border-b border-gray-300">
-                <TableCell colSpan={6}></TableCell>
-              </TableRow>
-            ))}
+                <TableRow key={`empty-${i}`} className="h-10 border-b border-gray-300">
+                  <TableCell colSpan={6}></TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>
@@ -133,18 +133,18 @@ export default function EmployeeTable() {
         </div>
 
         <div className="flex items-center gap-1 bg-white rounded px-1 py-0.5 shadow-sm">
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="h-6 w-6 hover:bg-gray-100 text-gray-600 disabled:opacity-50"
             onClick={() => handlePageChange(1)}
             disabled={page === 1}
           >
             <ChevronsLeft className="h-4 w-4" />
           </Button>
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="h-6 w-6 hover:bg-gray-100 text-gray-600 disabled:opacity-50"
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1}
@@ -154,17 +154,17 @@ export default function EmployeeTable() {
 
           <span className="px-3 font-bold text-black">{page}</span>
 
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="h-6 w-6 hover:bg-gray-100 text-gray-600 disabled:opacity-50"
             onClick={() => handlePageChange(page + 1)}
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="h-6 w-6 hover:bg-gray-100 text-gray-600 disabled:opacity-50"
           >
             <ChevronsRight className="h-4 w-4" />

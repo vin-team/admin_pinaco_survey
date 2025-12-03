@@ -1,11 +1,11 @@
 import { clientService } from "../http/ClientService";
 import { parseCommonHttpResult } from "../http/parseCommonResult";
 
-class TeamService {
-  async getTeamList() {
+class UserService {
+  async getUserList() {
     const response = await clientService.get('/users');
     return parseCommonHttpResult(response);
   }
 }
 
-export const teamService = new TeamService();
+export const userService = new UserService();
