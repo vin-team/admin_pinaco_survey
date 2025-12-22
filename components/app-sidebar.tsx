@@ -2,10 +2,7 @@
 
 import * as React from "react"
 import {
-  AudioWaveform,
   BookOpen,
-  Command,
-  GalleryVerticalEnd,
   Settings2,
   LayoutDashboard,
   ShoppingCart,
@@ -13,7 +10,9 @@ import {
   Users,
   ExternalLink,
   HeadphonesIcon,
-  FileText
+  FileText,
+  Calendar,
+  List
 } from "lucide-react"
 
 import { NavMain } from '@/components/nav-main'
@@ -26,80 +25,41 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
-import { NavDocuments } from "./nav-documents"
 
 const data = {
   teams: [
     {
-      name: "X SaaS",
-      logo: GalleryVerticalEnd,
-      plan: "Partner Portal",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
+      name: "Admin Panel",
+      plan: "Quản lý khảo sát",
+    }
   ],
   navMain: [
     {
       title: "Dashboard",
       url: "/dashboard",
       icon: LayoutDashboard,
-      isActive: true,
     },
     {
-      title: "Orders",
-      url: "/orders",
-      icon: ShoppingCart,
-      isActive: false
+      title: "Quản lý lịch trình",
+      url: "/schedule",
+      icon: Calendar,
     },
     {
-      title: "Deployments",
-      url: "/deployments",
-      icon: Rocket,
-      isActive: false,
+      title: "Danh sách câu hỏi",
+      url: "/questions",
+      icon: List,
     },
     {
-      title: "Customers",
-      url: "/customers",
+      title: "Danh sách nhân sự",
+      url: "/staffs",
       icon: Users,
-      isActive: false,
     },
     {
-      title: "Invoices",
-      url: "/invoices",
+      title: "Danh sách điểm bán",
+      url: "/sales-points",
       icon: FileText,
-      isActive: false,
-    },
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings2
-    },
-  ],
-  documentation: [
-    {
-      name: "Support",
-      url: "https://support.example.com",
-      icon: HeadphonesIcon,
-    },
-    {
-      name: "Documentation",
-      url: "https://docs.example.com",
-      icon: BookOpen,
-    },
-    {
-      name: "API Reference",
-      url: "https://api.example.com",
-      icon: ExternalLink,
-    },
-  ],
+    }
+  ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -110,7 +70,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documentation} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

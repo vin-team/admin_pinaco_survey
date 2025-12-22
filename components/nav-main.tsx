@@ -19,6 +19,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 export function NavMain({
   items,
@@ -27,56 +28,35 @@ export function NavMain({
     title: string
     url: string
     icon?: LucideIcon
-    isActive?: boolean
     items?: {
       title: string
       url: string
     }[]
   }[]
 }) {
-  const { open } = useSidebar()
+  const { open } = useSidebar();
+  const pathname = usePathname();
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel hidden>Platform</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.url!==''&&item.url!=="#"?
-                  <Link className="w-full flex items-center gap-2" href={item.url}>
-                    {item.icon && <item.icon className="h-[16px] w-[16px]"/>}
-                    {(item.items&&item.items.length)||open?<span>{item.title}</span>:<></>}
-                  </Link>:<>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                  </>}
-                  
-                  {item.items&&item.items.length>0&&<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />}
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <Link href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </Link>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
+        {items.map((item) => {
+          const isActive = pathname.includes(item.url);
+          return (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton
+                tooltip={item.title}
+                isActive={isActive}
+                className={`text-sm font-medium p-2! ${isActive ? "bg-blue-100! text-main!" : ""}`}
+              >
+                <Link className="w-full flex items-center gap-2" href={item.url}>
+                  {item.icon && <item.icon className="h-[24px] w-[24px]" />}
+                  {(item.items && item.items.length) || open ? <span>{item.title}</span> : <></>}
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
-          </Collapsible>
-        ))}
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   )

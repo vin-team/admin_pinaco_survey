@@ -9,7 +9,7 @@ import { customMiddleware } from './middleware';
 const persistConfig = {
 	key: "admin-pinaco-survey",
 	storage: storage,
-	whitelist: ["auth"],
+	whitelist: ["auth", "app"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -1,5 +1,6 @@
 export interface User {
   id: string;
+  avatar: string;
   email: string;
   name: string;
   roles: string[];
@@ -11,6 +12,7 @@ export interface User {
 export const parseUser = (user: any): User => {
   return {
     id: user.id,
+    avatar: user.avatar,
     email: user.email,
     name: user.name,
     roles: user.roles,
