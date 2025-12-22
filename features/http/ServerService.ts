@@ -22,7 +22,7 @@ export class ServerService extends BaseHttpService {
     this.instance.interceptors.response.use(
       (response) => response,
       async (error) => {
-        // console.log('ServerService Error response:', error.response);
+        // console.log("http error.response", error?.response);
         const payload = {
           status: error.response?.status || 500,
           statusText: error.response?.statusText || 'Internal Server Error',

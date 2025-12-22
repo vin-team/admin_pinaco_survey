@@ -1,31 +1,38 @@
 import { serverService } from '@/features/http/ServerService';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { responseFailed, responseSuccess } from '../../utils';
 
 export async function POST() {
-  const refreshToken = (await cookies()).get('refreshToken')?.value;
-  if (!refreshToken) {
+  const token = (await cookies()).get('refresh_token')?.value;
+  if (!token) {
     return NextResponse.json({ error: 'Refresh token is required' }, { status: 400 });
   }
 
   try {
     const response = await serverService.post('/auth/refresh', {
-      refreshToken: refreshToken,
+      refreshToken: token,
     });
-    const accessToken = response?.data?.accessToken;
+    const accessToken = response?.data?.data?.accessToken;
+    const refreshToken = response?.data?.data?.refreshToken;
     if (accessToken) {
-      (await cookies()).set('accessToken', accessToken, {
+      (await cookies()).set('access_token', accessToken, {
         path: '/',
         httpOnly: true,
       });
     }
-
-    return NextResponse.json({ status: response.status, data: { accessToken: accessToken } });
+    if (refreshToken) {
+      (await cookies()).set('refresh_token', refreshToken, {
+        path: '/',
+        httpOnly: true,
+      });
+    }
+    return responseSuccess(response);
   } catch (err: any) {
     const payload = err as any;
-    (await cookies()).delete('accessToken');
-    (await cookies()).delete('refreshToken');
+    (await cookies()).delete('access_token');
+    (await cookies()).delete('refresh_token');
     (await cookies()).delete('email');
-    return NextResponse.json({ error: payload?.message || 'Session Expired' }, { status: 401 });
+    return responseFailed(payload, 'Session Expired');
   }
 }

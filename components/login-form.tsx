@@ -8,44 +8,56 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Eye, EyeOff } from "lucide-react"
-import { useState } from "react"
-import { login } from "@/features/auth/auth.slice"
-import { useAppDispatch } from "@/hooks/redux"
-import { loginSchema, type LoginFormData } from "@/features/auth/auth.schema"
-import { useForm } from "react-hook-form"
+import { useEffect, useState } from "react"
+import { clearAuthState, login } from "@/features/auth/auth.slice"
+import { useAppDispatch, useAppSelector } from "@/hooks/redux"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { parseUser } from "@/model/User.model"
-import { setIsLogged, setUser } from "@/features/app/app.slice"
+import { clearAppState, setIsLogged, setUser } from "@/features/app/app.slice"
 import Image from "next/image"
+import { AuthLoginFormData, authLoginSchema } from "@/features/auth/auth.schema"
+import { Spinner } from "./ui/spinner"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const dispatch = useAppDispatch()
+  const authState = useAppSelector((state) => state.auth.requestState);
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const {
-    register,
     handleSubmit,
     setError,
+    control,
     formState: { errors },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<AuthLoginFormData>({
+    resolver: zodResolver(authLoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   })
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: AuthLoginFormData) => {
     await dispatch(login(data))
       .unwrap()
       .then((res: any) => {
-        const user = parseUser(res?.data?.data?.user);
-        dispatch(setUser(user));
+        const { user } = res?.data?.data?.data || {};
+        const userData = parseUser(user);
+        dispatch(setUser(userData));
         dispatch(setIsLogged(true));
       })
       .catch((err: any) => {
-        setError("root.email", { message: err?.message ?? 'Đăng nhập thất bại' })
+        setError("password", { message: err.message ?? 'Đăng nhập thất bại' })
       })
   };
+
+  useEffect(() => {
+    dispatch(clearAppState());
+    dispatch(clearAuthState());
+  }, [dispatch]);
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -60,13 +72,26 @@ export function LoginForm({
 
               <Field>
                 <FieldLabel htmlFor="email" className="text-sm sm:text-base">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="text"
-                  placeholder="Nhập email"
-                  {...register("email")}
-                  className={cn(errors.email && "border-destructive", "text-sm sm:text-base h-10 sm:h-11")}
+                <Controller
+                  control={control}
+                  name="email"
+                  render={({ field }) => (
+                    <Input
+                      id="email"
+                      type="text"
+                      placeholder="Nhập email"
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      className={cn(errors.email && "border-destructive", "text-sm sm:text-base h-10 sm:h-11")}
+                      required
+                    />
+                  )}
                 />
+
+                {errors.email && (
+                  <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>
+                )}
               </Field>
               <Field>
                 <div className="flex items-center">
@@ -76,16 +101,21 @@ export function LoginForm({
                   </a>
                 </div>
                 <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Nhập mật khẩu"
-                    {...register("password")}
-                    className={cn(
-                      "pr-10 text-sm sm:text-base h-10 sm:h-11",
-                      errors.password && "border-destructive"
+                  <Controller
+                    control={control}
+                    name="password"
+                    render={({ field }) => (
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Nhập mật khẩu"
+                        value={field.value}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                        className={cn(errors.password && "border-destructive", "text-sm sm:text-base h-10 sm:h-11")}
+                        required
+                      />
                     )}
-                    required
                   />
                   <button
                     type="button"
@@ -100,9 +130,14 @@ export function LoginForm({
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-sm text-red-500">{errors.password.message}</p>
+                )}
               </Field>
               <Field>
-                <Button type="submit" className="bg-main text-white font-bold hover:bg-main/90">Đăng nhập</Button>
+                <Button type="submit" className="bg-main text-white font-bold hover:bg-main/90 w-full" disabled={authState.status === 'loading'}>
+                  {authState.status === 'loading' ? <Spinner /> : 'Đăng nhập'}
+                </Button>
               </Field>
             </FieldGroup>
           </form>

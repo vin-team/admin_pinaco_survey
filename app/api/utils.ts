@@ -5,9 +5,7 @@ export function responseSuccess(response: AxiosResponse<any, any>) {
   return NextResponse.json({
     status: response?.status,
     statusText: response?.statusText,
-    message: response?.data?.message,
-    data: response?.data?.data,
-    code: response?.data?.code
+    data: response?.data,
   }, { status: response?.status });
 }
 
@@ -22,7 +20,7 @@ export function missingRequiredFieldsResponse(field: string) {
 export function responseFailed(error: any, defaultMessage: string) {
   return NextResponse.json({
     message: error.message || defaultMessage,
-    code: error.code || 500,
+    code: error.status || 500,
     statusText: error.statusText || 'Internal Server Error',
   }, { status: error.status || 500 });
 }

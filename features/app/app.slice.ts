@@ -1,9 +1,9 @@
-import { User } from "@/model/User.model";
 import { RequestState } from "@/store/state";
 import { createSlice } from "@reduxjs/toolkit";
+import { User } from "@/model/User.model";
 
 interface AppState {
-  isLogged: boolean
+  isLogged: boolean;
   user: User | null;
   requestState: RequestState;
 }
@@ -21,18 +21,18 @@ const appSlice = createSlice({
     setIsLogged: (state, action) => {
       state.isLogged = action.payload;
     },
-    clearAppState: (state) => {
-      state.requestState = { status: 'idle', type: '' }
-    },
     setUser: (state, action) => {
       state.user = action.payload;
     },
     clearUser: (state) => {
       state.user = null;
+    },
+    clearAppState: (state) => {
+      state.requestState = { status: 'idle', type: '' }
     }
   },
   extraReducers: (builder) => { }
 });
 
-export const { setIsLogged, setUser, clearUser } = appSlice.actions;
+export const { setIsLogged, setUser, clearUser, clearAppState } = appSlice.actions;
 export default appSlice.reducer;

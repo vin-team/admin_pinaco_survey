@@ -17,5 +17,4 @@ export const parseCommonHttpResult = (response: AxiosResponse<any, any>) => {
     code: response.data.code,
     message: response.data.message
   }
-
 }

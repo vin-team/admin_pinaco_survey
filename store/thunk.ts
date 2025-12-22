@@ -4,15 +4,15 @@ type asyncThunkProps<T = any> = {
 	type: string;
 	action: (data: T) => Promise<
 		| {
-				code: number;
-				data: any;
-				message?: undefined;
-		  }
+			code: number;
+			data: any;
+			message?: undefined;
+		}
 		| {
-				code: number;
-				message: string;
-				data?: undefined;
-		  }
+			code: number;
+			message: string;
+			data?: undefined;
+		}
 	>;
 };
 
