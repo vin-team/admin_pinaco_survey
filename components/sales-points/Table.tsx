@@ -8,7 +8,7 @@ import { TableHeader, TableRow, TableHead, TableBody, TableCell } from "../ui/ta
 import { TablePagination } from "../ui/table-pagination";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { changePage, clearSalesPointsState, deleteStore, getStores, resetPagination } from "@/features/sales-points/sales-points.slice";
+import { changePage, deleteStore, getStores, resetPagination } from "@/features/sales-points/sales-points.slice";
 import { Spinner } from "../ui/spinner";
 import { useDialog } from "@/hooks/use-dialog";
 
