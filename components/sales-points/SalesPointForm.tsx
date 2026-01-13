@@ -201,7 +201,7 @@ export function SalesPointForm({ isEdit }: SalesPointFormProps) {
                 render={({ field }) => (
                   <Input
                     className="bg-gray-100 text-black opacity-100"
-                    value={field.value || ""}
+                    value={field.value?.toFixed(2) || ""}
                     onChange={field.onChange}
                     onBlur={field.onBlur}
                     placeholder="Nhập quy mô doanh số"

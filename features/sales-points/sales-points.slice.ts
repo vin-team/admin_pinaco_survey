@@ -39,6 +39,7 @@ export const deleteStore = commonCreateAsyncThunk({ type: 'salesPoints/deleteSto
 export const getStoreById = commonCreateAsyncThunk({ type: 'salesPoints/getStoreById', action: storeService.getStoreById });
 export const createStore = commonCreateAsyncThunk({ type: 'salesPoints/createStore', action: storeService.createStore });
 export const updateStore = commonCreateAsyncThunk({ type: 'salesPoints/updateStore', action: storeService.updateStore });
+export const importStores = commonCreateAsyncThunk({ type: 'salesPoints/importStores', action: storeService.importStores });
 
 export const salesPointsSlice = createSlice({
   name: 'salesPoints',
@@ -84,11 +85,11 @@ export const salesPointsSlice = createSlice({
           state.stores = newStores;
           state.pagination.hasMore = newStores.length >= state.pagination.limit;
         } else {
-          const existingIds = new Set(state.stores.map(s => s.id));
-          const uniqueNewStores = newStores.filter(s => !existingIds.has(s.id));
-          state.stores = [...state.stores, ...uniqueNewStores];
-
-          state.pagination.hasMore = uniqueNewStores.length >= state.pagination.limit;
+          state.stores = [...state.stores, ...newStores];
+          // const existingIds = new Set(state.stores.map(s => s.id));
+          // const uniqueNewStores = newStores.filter(s => !existingIds.has(s.id));
+          // state.stores = [...state.stores, ...uniqueNewStores];
+          state.pagination.hasMore = newStores.length >= state.pagination.limit;
         }
 
         state.requestState = { status: 'completed', type: 'getStores', data: state.pagination.page === 1 };
@@ -153,6 +154,18 @@ export const salesPointsSlice = createSlice({
       .addCase(createStore.rejected, (state, action) => {
         const payload = action.payload as any;
         state.requestState = { status: 'failed', type: 'createStore', error: payload?.message };
+      })
+      .addCase(importStores.fulfilled, (state, action) => {
+        const payload = action.payload as any;
+        const responseData = payload?.data?.data?.data || payload?.data?.data || payload?.data;
+        state.requestState = { status: 'completed', type: 'importStores', data: responseData };
+      })
+      .addCase(importStores.pending, (state) => {
+        state.requestState = { status: 'loading', type: 'importStores' };
+      })
+      .addCase(importStores.rejected, (state, action) => {
+        const payload = action.payload as any;
+        state.requestState = { status: 'failed', type: 'importStores', error: payload?.message };
       })
   },
 })

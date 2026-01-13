@@ -1,57 +1,28 @@
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter, CardAction } from "../ui/card";
-import { Status, StatusBadge } from "../ui/status-badge";
+import { StatusBadge } from "../ui/status-badge";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { useEffect } from "react";
+import { getTasks } from "@/features/task/task.slice";
+import { Task } from "@/model/Task.model";
+import { formatDate } from "date-fns";
 
 export function RecentActivity() {
-  const activities = [
-    {
-      store: {
-        name: "Cửa hàng phụ tùng 365",
-        address: "36 Đường 3/2, Phường 12, Quận 10, TP.HCM",
-      },
-      assignee: {
-        name: "Nguyễn Văn A",
-        email: "nguyenvana@gmail.com",
-        phone: "0912345678",
-      },
-      status: Status.COMPLETED,
-      createdAt: new Date(),
-    },
-    {
-      store: {
-        name: "Gara Ô tô Minh Tuấn",
-        address: "Cầu Giấy, Hà Nội",
-      },
-      assignee: {
-        name: "Nguyễn Văn B",
-        email: "nguyenvanb@gmail.com",
-        phone: "0912345679",
-      },
-      status: Status.COMPLETED,
-      createdAt: new Date(),
-    },
-    {
-      store: {
-        name: "Đại lý ô tô Hoàng An",
-        address: "123 Đường 1, Quận 1, TP.HCM",
-      },
-      assignee: {
-        name: "Nguyễn Văn C",
-        email: "nguyenvanc@gmail.com",
-        phone: "0912345678",
-      },
-      status: Status.COMPLETED,
-      createdAt: new Date(),
-    }
-  ]
+  const dispatch = useAppDispatch();
+  const tasks = useAppSelector((state: any) => state.task.tasks);
+
+  useEffect(() => {
+    dispatch(getTasks({ page: 1, limit: 10 }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <Card className="@container/card gap-4! py-4! flex-3/5">
+    <Card className="@container/card gap-4! py-4! flex flex-col flex-1">
       <CardHeader className="flex flex-row justify-between items-center gap-2">
         <div className="flex flex-col gap-1">
           <CardTitle>Hoạt động gần đây</CardTitle>
-          <CardDescription>5 khảo sát mới nhất được gửi về</CardDescription>
+          <CardDescription>{tasks.length} khảo sát mới nhất được gửi về</CardDescription>
         </div>
         <CardAction className="flex items-center gap-1">
           <Link href="/schedule" className="text-sm text-main hover:text-main/80">Xem tất cả</Link>
@@ -70,16 +41,16 @@ export function RecentActivity() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {activities.map((activity, index) => (
-              <TableRow key={activity.store.name}>
+            {tasks.map((task: Task, index: number) => (
+              <TableRow key={task._id}>
                 <TableCell className="text-left">{index + 1}</TableCell>
                 <TableCell className="font-medium flex flex-col gap-1">
-                  <span>{activity.store.name}</span>
-                  <span className="text-xs text-muted-foreground">{activity.store.address}</span>
+                  <span>{task.store.name}</span>
+                  <span className="text-xs text-muted-foreground">{task.store.address}</span>
                 </TableCell>
-                <TableCell>{activity.assignee.name}</TableCell>
-                <TableCell><StatusBadge status={activity.status} /></TableCell>
-                <TableCell className="text-left">{activity.createdAt.toLocaleDateString()}</TableCell>
+                <TableCell>{task.assignee.name}</TableCell>
+                <TableCell><StatusBadge status={task.status} /></TableCell>
+                <TableCell className="text-left">{formatDate(task.createdAt, 'dd/MM/yyyy')}</TableCell>
               </TableRow>
             ))}
           </TableBody>

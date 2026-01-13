@@ -44,17 +44,7 @@ export function TablePagination({
 
   const pageNumbers = useMemo(() => {
     const pages: (number | string)[] = []
-    const maxVisiblePages = 5
-
-    if (hasMore !== undefined) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i)
-      }
-      if (hasMore) {
-        pages.push("load-more")
-      }
-      return pages
-    }
+    const maxVisiblePages = 7
 
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
@@ -82,6 +72,10 @@ export function TablePagination({
         pages.push("...")
         pages.push(totalPages)
       }
+    }
+
+    if (hasMore) {
+      pages.push("load-more")
     }
 
     return pages

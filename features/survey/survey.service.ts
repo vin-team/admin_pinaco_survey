@@ -2,6 +2,10 @@ import { clientService } from "../http/ClientService";
 import { parseCommonHttpResult } from "../http/parseCommonResult";
 
 class SurveyService {
+  async getSurveys() {
+    const response = await clientService.get(`/surveys`);
+    return parseCommonHttpResult(response);
+  }
   async getSurveyById(id: string) {
     const response = await clientService.get(`/surveys/${id}`);
     return parseCommonHttpResult(response);

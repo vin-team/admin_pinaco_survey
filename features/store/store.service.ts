@@ -38,6 +38,13 @@ class StoreService {
     const response = await clientService.delete(`/stores/${id}`, {});
     return parseCommonHttpResult(response);
   }
+
+  async importStores(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await clientService.upload('/stores/import', formData);
+    return parseCommonHttpResult(response);
+  }
 }
 
 export const storeService = new StoreService();

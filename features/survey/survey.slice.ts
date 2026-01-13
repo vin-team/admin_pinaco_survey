@@ -1,8 +1,9 @@
-import { parseSurvey, Survey } from "@/model/Survey.model";
+
 import { RequestState } from "@/store/state";
 import { surveyService } from "./survey.service";
 import { commonCreateAsyncThunk } from "@/store/thunk";
 import { createSlice } from "@reduxjs/toolkit";
+import { parseSurvey, parseSurveys, Survey } from "@/model/Survey.model";
 
 interface SurveyState {
   survey: Survey | null;
@@ -16,6 +17,7 @@ const initialState: SurveyState = {
   requestState: { status: 'idle', type: '' },
 }
 
+export const getSurveys = commonCreateAsyncThunk({ type: "getSurveys", action: surveyService.getSurveys });
 export const getSurveyById = commonCreateAsyncThunk({ type: "getSurveyById", action: surveyService.getSurveyById });
 export const approveResurveyRequest = commonCreateAsyncThunk({ type: "approveResurveyRequest", action: surveyService.approveResurveyRequest });
 export const rejectResurveyRequest = commonCreateAsyncThunk({ type: "rejectResurveyRequest", action: surveyService.rejectResurveyRequest });
@@ -24,20 +26,29 @@ export const surveySlice = createSlice({
   name: 'survey',
   initialState,
   reducers: {
-    setSurvey: (state, action) => {
+    changeSurvey: (state, action) => {
       state.survey = action.payload;
-    },
-    setSurveys: (state, action) => {
-      state.surveys = action.payload;
     },
     clearSurveyState: (state) => {
       state.survey = null;
-      state.surveys = [];
       state.requestState = { status: 'idle', type: '' };
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getSurveys.fulfilled, (state, action) => {
+        const payload = action.payload as any;
+        const responseData = payload?.data?.data?.data || payload?.data?.data || payload?.data;
+        state.surveys = parseSurveys(responseData?.surveys || []);
+        state.requestState = { status: 'completed', type: 'getSurveys' };
+      })
+      .addCase(getSurveys.pending, (state) => {
+        state.requestState = { status: 'loading', type: 'getSurveys' };
+      })
+      .addCase(getSurveys.rejected, (state, action) => {
+        const payload = action.payload as any;
+        state.requestState = { status: 'failed', type: 'getSurveys', error: payload?.message };
+      })
       .addCase(getSurveyById.fulfilled, (state, action) => {
         const payload = action.payload as any;
         const responseData = payload?.data?.data?.data || payload?.data?.data || payload?.data;
@@ -75,5 +86,5 @@ export const surveySlice = createSlice({
   },
 })
 
-export const { setSurvey, setSurveys, clearSurveyState } = surveySlice.actions;
+export const { changeSurvey, clearSurveyState } = surveySlice.actions;
 export default surveySlice.reducer;
