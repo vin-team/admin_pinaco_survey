@@ -28,26 +28,16 @@ export const staffFormSchema = z.object({
   dateOfBirth: z.date({ message: "Ngày sinh là bắt buộc" }),
   address: z.string().optional().or(z.literal("")),
   gender: GenderEnum.optional().nullable(),
-  password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự").optional().or(z.literal("")),
+  password: z.string().optional(),
   roles: rolesArray,
   status: UserStatusEnum.optional(),
   authMethod: AuthMethodEnum.optional(),
   isEmailVerified: z.boolean().optional(),
 }).refine((data) => {
-  // At least one of email or phone must be provided
   return !!(data.email && data.email.trim() !== '') || !!(data.phone && data.phone.trim() !== '');
 }, {
   message: "Vui lòng nhập email hoặc số điện thoại",
   path: ["email"]
-}).refine((data) => {
-  // If email is provided, password is required
-  if (data.email && data.email.trim() !== '') {
-    return !!(data.password && data.password.trim() !== '');
-  }
-  return true;
-}, {
-  message: "Mật khẩu là bắt buộc khi sử dụng email",
-  path: ["password"]
 });
 
 export type StaffFormData = z.infer<typeof staffFormSchema>;

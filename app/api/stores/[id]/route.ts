@@ -53,3 +53,21 @@ export async function POST(
     return responseFailed(payload, 'Create store failed');
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const accessToken = (await cookies()).get('access_token')?.value;
+  try {
+    if (!accessToken) throw new Error('No access token');
+    const { id } = await params;
+    const response = await serverService.delete(`/stores/${id}`, {});
+    return responseSuccess(response);
+  }
+  catch (error: any) {
+    const payload = error as any;
+    console.log('error: ', payload);
+    return responseFailed(payload, 'Delete store failed');
+  }
+}

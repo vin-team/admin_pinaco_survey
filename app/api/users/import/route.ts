@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
     const formData = new FormData();
     formData.append('file', file as Blob);
     formData.append('skipPhoneValidation', 'true');
+    formData.append('skipEmployeeCodeValidation', 'true');
     const response = await serverService.upload('/users/import', formData);
     return responseSuccess(response);
   } catch (error: any) {
