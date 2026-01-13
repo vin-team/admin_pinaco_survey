@@ -1,53 +1,43 @@
-// Survey interface based on Survey response from API
 export interface Survey {
-  id: string;
+  _id: string;
   createdBy: string;
-  createdByUser?: string;
-  updatedBy?: string;
-  updatedByUser?: string;
-  surveyData?: {
-    title?: string;
-    description?: string;
-    sources?: any;
-    questions?: any[];
-  };
-  metadata?: {
-    storeType?: string;
-  };
-  isActive?: boolean;
-  createdAt: Date | string;
-  updatedAt: Date | string;
+  createdByUser: string;
+  surveyData: SurveyData,
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
-export const parseSurvey = (survey: any): Survey => {
+export interface SurveyData {
+  title: string;
+  description: string;
+  sources: any,
+  questions: any[],
+}
+
+export function parseSurveyData(data: any): SurveyData {
   return {
-    id: survey._id || survey.id,
-    createdBy: survey.createdBy,
-    createdByUser: survey.createdByUser,
-    updatedBy: survey.updatedBy,
-    updatedByUser: survey.updatedByUser,
-    surveyData: survey.surveyData,
-    metadata: survey.metadata,
-    isActive: survey.isActive,
-    createdAt: survey.createdAt,
-    updatedAt: survey.updatedAt,
+    title: data.title,
+    description: data.description,
+    sources: data.sources,
+    questions: data.questions,
   };
-};
+}
+export function parseSurvey(data: any): Survey {
+  return {
+    _id: data._id,
+    createdBy: data.createdBy,
+    createdByUser: data.createdByUser,
+    surveyData: parseSurveyData(data.surveyData),
+    isActive: data.isActive,
+    createdAt: data.createdAt,
+    updatedAt: data.updatedAt,
+    __v: data.__v,
+  };
+}
 
-// Helper function to get survey title
-export const getSurveyTitle = (survey: Survey): string => {
-  return survey.surveyData?.title || "Không có tiêu đề";
-};
-
-// Helper function to get survey description
-export const getSurveyDescription = (survey: Survey): string => {
-  return survey.surveyData?.description || "";
-};
-
-// Helper function to format date
-export const formatSurveyDate = (date: Date | string): string => {
-  if (!date) return "-";
-  const d = typeof date === 'string' ? new Date(date) : date;
-  return d.toLocaleDateString('vi-VN');
-};
-
+export function parseSurveys(data: any): Survey[] {
+  if (!Array.isArray(data)) return [];
+  return data.map(parseSurvey);
+}
