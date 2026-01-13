@@ -144,7 +144,7 @@ export function ScheduleSheet({
             variant="default"
             className="bg-main hover:bg-main/90"
             onClick={handleCreateMultipleTasks}
-            disabled={taskState.status === 'loading'}>
+            disabled={taskState.type === 'createMultipleTasks' && taskState.status === 'loading'}>
             Tạo lịch trình
           </Button>
         </SheetFooter>

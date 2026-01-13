@@ -34,6 +34,7 @@ export const getUserById = commonCreateAsyncThunk({ type: 'staffs/getUserById', 
 export const createUser = commonCreateAsyncThunk({ type: 'staffs/createUser', action: staffsService.createUser });
 export const updateUser = commonCreateAsyncThunk({ type: 'staffs/updateUser', action: staffsService.updateUser });
 export const deleteUser = commonCreateAsyncThunk({ type: 'staffs/deleteUser', action: staffsService.deleteUser });
+export const importUsers = commonCreateAsyncThunk({ type: 'staffs/importUsers', action: staffsService.importUsers });
 
 export const staffsSlice = createSlice({
   name: 'staffs',
@@ -141,11 +142,22 @@ export const staffsSlice = createSlice({
       .addCase(deleteUser.rejected, (state, action) => {
         const payload = action.payload as any;
         state.requestState = { status: 'failed', type: 'deleteUser', error: payload?.message };
+      })
+      .addCase(importUsers.fulfilled, (state, action) => {
+        const payload = action.payload as any;
+        const responseData = payload?.data?.data?.data || payload?.data?.data || payload?.data;
+        state.requestState = { status: 'completed', type: 'importUsers', data: responseData };
+      })
+      .addCase(importUsers.pending, (state) => {
+        state.requestState = { status: 'loading', type: 'importUsers' };
+      })
+      .addCase(importUsers.rejected, (state, action) => {
+        const payload = action.payload as any;
+        state.requestState = { status: 'failed', type: 'importUsers', error: payload?.message };
       });
   },
 })
 
 export const { changeAction, changeSearch, changeRole, changeStatus, clearStaffsState, clearFilter } = staffsSlice.actions;
-
 export default staffsSlice.reducer;
 

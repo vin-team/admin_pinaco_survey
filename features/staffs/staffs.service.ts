@@ -36,6 +36,13 @@ class StaffsService {
     const response = await clientService.delete(`/users/${id}`, {});
     return parseCommonHttpResult(response);
   }
+
+  async importUsers(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await clientService.upload('/users/import', formData);
+    return parseCommonHttpResult(response);
+  }
 }
 
 export const staffsService = new StaffsService();

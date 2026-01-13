@@ -18,6 +18,11 @@ class CampaignsService {
     const response = await clientService.get('/campaigns', queryParams);
     return parseCommonHttpResult(response);
   }
+
+  async getCampaignStatistics(campaignId: string) {
+    const response = await clientService.get(`/campaigns/${campaignId}/statistics`);
+    return parseCommonHttpResult(response);
+  }
 }
 
 export const campaignsService = new CampaignsService();

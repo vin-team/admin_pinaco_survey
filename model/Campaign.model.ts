@@ -11,7 +11,6 @@ export interface Campaign {
   __v: number;
 }
 
-
 export const parseCampaign = (campaign: any): Campaign => {
   return {
     _id: campaign._id,
@@ -30,4 +29,22 @@ export const parseCampaign = (campaign: any): Campaign => {
 export const parseCampaigns = (campaigns: any[]): Campaign[] => {
   if (!Array.isArray(campaigns)) return [];
   return campaigns.map(parseCampaign);
+};
+
+export interface CampaignStatistics {
+  totalTasks: number;
+  completedTasks: number;
+  totalStores: number;
+  totalParticipants: number;
+  completionRate: number;
+}
+
+export const parseCampaignStatistics = (campaignStatistics: any): CampaignStatistics => {
+  return {
+    totalTasks: campaignStatistics.totalTasks,
+    completedTasks: campaignStatistics.completedTasks,
+    totalStores: campaignStatistics.totalStores,
+    totalParticipants: campaignStatistics.totalParticipants,
+    completionRate: campaignStatistics.completionRate,
+  };
 };
