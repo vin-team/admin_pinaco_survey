@@ -14,7 +14,7 @@ import { Button } from "../ui/button";
 import { Upload, FileSpreadsheet, CheckCircle2, XCircle, AlertCircle, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { importStores } from "@/features/sales-points/sales-points.slice";
+import { getStores, importStores } from "@/features/sales-points/sales-points.slice";
 
 interface ImportLog {
   id: string;
@@ -229,6 +229,8 @@ export function SalesPointSheet({
         message: `Lỗi import: ${err?.message || "Có lỗi xảy ra khi import file"}`,
         type: "error",
       });
+    } finally {
+      dispatch(getStores({ page: 1, limit: 20 }));
     }
   };
 
@@ -340,7 +342,7 @@ export function SalesPointSheet({
             type="button"
             variant="outline"
             onClick={() => onOpenChange(false)}>
-            Hủy
+            Đóng
           </Button>
           <Button
             type="button"

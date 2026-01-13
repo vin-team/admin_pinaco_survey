@@ -7,7 +7,7 @@ export const customMiddleware =
       if (action.payload) {
         const { message } = action?.payload || {};
         if (message) {
-          if (["Session Expired", "Unauthorized", "Invalid refresh token", "No access token", "Invalid access token format or signature"].includes(message)) {
+          if (["Session Expired", "Unauthorized", "Invalid refresh token", "No access token", "Invalid access token format or signature", "User not found"].includes(message)) {
             dispatch(setIsLogged(false));
             storage.clear();
             window.location.replace("/login");

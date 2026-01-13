@@ -4,14 +4,21 @@ export interface Store {
   type: string;
   name: string;
   phone: string;
-  location: any;
+  location: {
+    address: string;
+    position: {
+      latitude: number;
+      longitude: number;
+    }
+  },
   province: string;
-  region: string;
   area: string;
-  regionCode: string;
   salesScale: number;
-  isActive: boolean;
   locationId: string;
+  contactPersonName: string;
+  nppCode: string;
+  nppName: string;
+  salesEmployeeName: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -25,11 +32,12 @@ export function parseStore(data: any): Store {
     phone: data.phone,
     location: data.location,
     province: data.province,
-    region: data.region,
     area: data.area,
-    regionCode: data.regionCode,
     salesScale: data.salesScale,
-    isActive: data.isActive,
+    contactPersonName: data.contactPersonName,
+    nppCode: data.nppCode,
+    nppName: data.nppName,
+    salesEmployeeName: data.salesEmployeeName,
     locationId: data.locationId,
     createdAt: data.createdAt,
     updatedAt: data.updatedAt,

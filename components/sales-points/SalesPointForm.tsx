@@ -36,11 +36,11 @@ export function SalesPointForm({ isEdit }: SalesPointFormProps) {
         code: store?.code || "",
         address: store?.location?.address || "",
         salesScale: store?.salesScale || 0,
-        contactName: store?.location?.contactName || "",
+        contactName: store?.contactPersonName || "",
         phone: store?.phone || "",
-        supplierCode: "",
-        supplierName: "",
-        sellerName: "",
+        supplierCode: store?.nppCode || "",
+        supplierName: store?.nppName || "",
+        sellerName: store?.salesEmployeeName || "",
       };
     }
 
@@ -72,11 +72,16 @@ export function SalesPointForm({ isEdit }: SalesPointFormProps) {
         code: data.code,
         address: data.address,
         salesScale: data.salesScale,
-        contactName: data.contactName,
+        contactPersonName: data.contactName,
         phone: data.phone,
-        supplierCode: data.supplierCode,
-        supplierName: data.supplierName,
-        sellerName: data.sellerName,
+        nppCode: data.supplierCode,
+        nppName: data.supplierName,
+        salesEmployeeName: data.sellerName,
+        province: store?.province || "",
+        area: store?.area || "",
+        locationId: store?.locationId || "",
+        type: store?.type || "",
+        location: store?.location || {},
       };
       showInfo({
         title: "Xác nhận",
@@ -90,7 +95,7 @@ export function SalesPointForm({ isEdit }: SalesPointFormProps) {
         },
       });
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error:", error);
     }
   };
 
